@@ -84,13 +84,9 @@ class ViolationController extends Controller
 public function getSpecifiedUserForViolation(Request $request) {
     $search = trim((string) $request->query('search', ''));
 
-    // If no search term, return empty to avoid dumping all users
     if ($search === '') {
-        return response()->json([
-        ], 200);
+        return response()->json([], 200);
     }
-
-    // Query internet users directly (not violations) and filter by username
     $users = DB::table('internet_users')
         ->select('id', 'username')
         ->where('username', 'like', '%' . $search . '%')
@@ -99,4 +95,5 @@ public function getSpecifiedUserForViolation(Request $request) {
 
     return response()->json($users, 200);
 }
+
 }
