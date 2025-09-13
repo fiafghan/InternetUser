@@ -42,7 +42,7 @@ class InternetUserController extends Controller
 
             )
             
-            ->get();
+            ->paginate(10);
 
         return response()->json($data);
     }
