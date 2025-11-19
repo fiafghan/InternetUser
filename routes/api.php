@@ -10,7 +10,8 @@ use App\Http\Controllers\api\app\Device_type\DeviceTypeController;
 use App\Http\Controllers\api\app\Violation\ViolationTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\app\Violation\ViolationController;
-use App\Http\Controllers\Api\Group\GroupController;
+use App\Http\Controllers\api\Group\GroupController;
+use App\Http\Controllers\api\app\MophEmail\MophEmailController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -36,6 +37,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/employment-type', [EmploymentTypeController::class, 'index']);
     Route::get('/directorate', [DirectorateController::class, 'index']);
     Route::get('/device-types', [DeviceTypeController::class, 'index']);
+    Route::get('/moph-emails', [MophEmailController::class, 'index']);
+    Route::post('/moph-emails', [MophEmailController::class, 'store'])->middleware('check.access:AddSystemData');
+    Route::put('/moph-emails/{id}', [MophEmailController::class, 'update'])->middleware('check.access:UpdateSystemData');
+    Route::delete('/moph-emails/{id}', [MophEmailController::class, 'destroy'])->middleware('check.access:DeleteSystemData');
     Route::put('/users/{id}/status', [InternetUserController::class, 'updateStatus'])->middleware('check.access:UpdateSystemData');
     Route::get('/employment-type-counts', [EmploymentTypeController::class, 'employmentTypeCounts']);
     Route::get('/total-users', [InternetUserController::class, 'getTotalUsers']);
