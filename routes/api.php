@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/moph-emails', [MophEmailController::class, 'store'])->middleware('check.access:AddSystemData');
     Route::put('/moph-emails/{id}', [MophEmailController::class, 'update'])->middleware('check.access:UpdateSystemData');
     Route::delete('/moph-emails/{id}', [MophEmailController::class, 'destroy'])->middleware('check.access:DeleteSystemData');
+    Route::get('/checkEmailAddress', [MophEmailController::class, 'checkEmailAddress']);
     Route::put('/users/{id}/status', [InternetUserController::class, 'updateStatus'])->middleware('check.access:UpdateSystemData');
     Route::get('/employment-type-counts', [EmploymentTypeController::class, 'employmentTypeCounts']);
     Route::get('/total-users', [InternetUserController::class, 'getTotalUsers']);

@@ -12,10 +12,7 @@ class MophEmailController extends Controller
 {
     public function index()
     {
-        $u = auth()->user();
-        if (!$u || strtolower(($u->role->name ?? '')) === 'viewer') {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+       
         $rows = DB::table('moph_emails as me')
             ->select('me.id', 'me.moph_id', 'me.email', 'me.directorate')
             ->orderByDesc('me.id')
@@ -26,10 +23,7 @@ class MophEmailController extends Controller
 
     public function store(Request $request)
     {
-        $u = auth()->user();
-        if (!$u || strtolower(($u->role->name ?? '')) === 'viewer') {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+        
         $validated = $request->validate([
             'directorate' => 'required|string|max:255',
             'email' => 'required|email|unique:moph_emails,email',
@@ -48,10 +42,7 @@ class MophEmailController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $u = auth()->user();
-        if (!$u || strtolower(($u->role->name ?? '')) === 'viewer') {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+      
         $row = MophEmail::findOrFail($id);
 
         $validated = $request->validate([
@@ -69,13 +60,23 @@ class MophEmailController extends Controller
 
     public function destroy(string $id)
     {
-        $u = auth()->user();
-        if (!$u || strtolower(($u->role->name ?? '')) === 'viewer') {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+        
         $row = MophEmail::findOrFail($id);
         $row->delete();
 
         return response()->json(['message' => 'Deleted'], 200);
+    }
+
+
+     public function checkEmailAddress(Request $request)
+    {
+        $email = $request->input('email');
+
+        $exists = \App\Models\MophEmail::where('email', $email)->exists();
+
+        return response()->json([
+            'exists' => $exists,
+            'message' => $exists ? 'This EMAIL Address is Already Registered! Please Try Another One!' : ''
+        ]);
     }
 }
