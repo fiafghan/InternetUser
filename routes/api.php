@@ -11,6 +11,7 @@ use App\Http\Controllers\api\app\Violation\ViolationTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\app\Violation\ViolationController;
 use App\Http\Controllers\api\Group\GroupController;
+use App\Http\Controllers\EmailController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -56,4 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('reports/individual', [InternetUserController::class, 'individualReport']);
     Route::get('reports/general', [InternetUserController::class, 'generalReport']);
     Route::get('/getSpecifiedUserForViolation', [ViolationController::class, 'getSpecifiedUserForViolation']);
+   
+   
 });
