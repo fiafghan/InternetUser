@@ -100,10 +100,10 @@ class DatabaseSeeder extends Seeder
         if (!$adminExists) {
 
             User::create([
-                'name' => 'IT',
+                'name' => 'ITD',
                 'email' => 'ITD@moph.gov.af',
                 'role_id' => RoleEnum::Admin->value,
-                'password' => Hash::make('adminpassword'),
+                'password' => Hash::make('123123123'),
             ]);
            
         }
