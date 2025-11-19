@@ -17,8 +17,7 @@ class MophEmailController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
         $rows = DB::table('moph_emails as me')
-            ->join('directorates as d', 'd.id', '=', 'me.directorate_id')
-            ->select('me.id', 'me.moph_id', 'me.email', 'me.directorate_id', 'd.name as directorate_name')
+            ->select('me.id', 'me.moph_id', 'me.email', 'me.directorate')
             ->orderByDesc('me.id')
             ->get();
 
@@ -32,7 +31,7 @@ class MophEmailController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
         $validated = $request->validate([
-            'directorate_id' => 'required|exists:directorates,id',
+            'directorate' => 'required|string|max:255',
             'email' => 'required|email|unique:moph_emails,email',
         ]);
 
@@ -40,7 +39,7 @@ class MophEmailController extends Controller
 
         $row = MophEmail::create([
             'moph_id' => $generatedId,
-            'directorate_id' => $validated['directorate_id'],
+            'directorate' => $validated['directorate'],
             'email' => $validated['email'],
         ]);
 
@@ -56,12 +55,12 @@ class MophEmailController extends Controller
         $row = MophEmail::findOrFail($id);
 
         $validated = $request->validate([
-            'directorate_id' => 'required|exists:directorates,id',
+            'directorate' => 'required|string|max:255',
             'email' => 'required|email|unique:moph_emails,email,' . $row->id,
         ]);
 
         $row->update([
-            'directorate_id' => $validated['directorate_id'],
+            'directorate' => $validated['directorate'],
             'email' => $validated['email'],
         ]);
 

@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('moph_emails', function (Blueprint $table) {
             $table->id();
             $table->string('moph_id')->unique();
-            $table->unsignedBigInteger('directorate_id');
+            $table->string('directorate');
             $table->string('email')->unique();
             $table->timestamps();
-
-            $table->foreign('directorate_id')->references('id')->on('directorates')->onDelete('cascade');
         });
     }
 
